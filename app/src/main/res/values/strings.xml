@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tienda</string>
+    <string name="btntIngresar">Ingresar</string>
+    <string name="btntregistarse">Registrarse</string>
+</resources>
