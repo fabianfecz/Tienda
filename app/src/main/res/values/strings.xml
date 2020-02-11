@@ -11,4 +11,8 @@
     <string name="btntPromo">PROMOCIÓN</string>
     <string name="txttMenu">MENÚ</string>
     <string name="btntSalir">SALIR</string>
+    <string name="btntTiendas">TIENDAS</string>
+    <string name="txttTienda">TIENDA</string>
+    <string name="txttDireccion">Dirección</string>
+    <string name="txttLista">Lista</string>
 </resources>

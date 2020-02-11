@@ -17,7 +17,7 @@ import com.uisrael.tienda.model.Usuario;
 
 import java.util.UUID;
 
-public class Registro extends AppCompatActivity {
+public class RegistroView extends AppCompatActivity {
 
     TextView nombre, apellido, telefono, correo, nick, pass;
     Button guardar, cancelar;
@@ -83,7 +83,7 @@ public class Registro extends AppCompatActivity {
 
             dbReference.child("Usuario").child(u.getUsuarioId()).setValue(u);
 
-            Toast.makeText(this,"Registro exitoso.",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"RegistroView exitoso.",Toast.LENGTH_LONG).show();
         }
 
     }
