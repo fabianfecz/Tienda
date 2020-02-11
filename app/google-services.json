@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "101993312844",
+    "firebase_url": "https://tienda-uisrael.firebaseio.com",
+    "project_id": "tienda-uisrael",
+    "storage_bucket": "tienda-uisrael.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101993312844:android:2c494f905182908cf0fae9",
+        "android_client_info": {
+          "package_name": "com.uisrael.tienda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101993312844-pupis1p6gko16qcglqqidrd3rk6313ud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uisrael.tienda",
+            "certificate_hash": "39f4a7e2655c97eec9690efbb5dc8990ef934e1c"
+          }
+        },
+        {
+          "client_id": "101993312844-h6oudajdfud42sjccnqlsln902edlfpb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCejpjAd7osikAH_hS_gnoOplAiCdYVeNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101993312844-h6oudajdfud42sjccnqlsln902edlfpb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

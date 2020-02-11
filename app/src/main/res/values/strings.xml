@@ -2,4 +2,13 @@
     <string name="app_name">Tienda</string>
     <string name="btntIngresar">Ingresar</string>
     <string name="btntregistarse">Registrarse</string>
+    <string name="txttregistarse">Crear Cuenta</string>
+    <string name="btntGuadar">Guardar</string>
+    <string name="btntTienda">Tienda</string>
+    <string name="btntCancelar">Cancelar</string>
+    <string name="btntCategoria">CATEGORIA</string>
+    <string name="btntProducto">PRODUCTO</string>
+    <string name="btntPromo">PROMOCIÓN</string>
+    <string name="txttMenu">MENÚ</string>
+    <string name="btntSalir">SALIR</string>
 </resources>
