@@ -1,10 +1,11 @@
 package com.uisrael.tienda;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,21 +22,26 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.ValueEventListener;
 import com.uisrael.tienda.model.Categoria;
+import com.uisrael.tienda.model.Producto;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+public class ProductoView extends AppCompatActivity {
 
-public class CategoriaView extends AppCompatActivity {
     private List<Categoria> listCategoria = new ArrayList<Categoria>();
     ArrayAdapter<Categoria> arrayAdapterCategoria;
 
+    private List<Producto> listProducto = new ArrayList<Producto>();
+    ArrayAdapter<Producto> arrayAdapterProducto;
+
+    Producto prodSelect;
     Categoria catSelect;
 
-    TextView nombre, descripcion;
+    TextView nombre, precio, catId;
     ImageButton guardar, actualizar, eliminar, cancelar;
 
-    ListView listaCategoria;
+    ListView listaCategoria,listaProducto;
 
     FirebaseDatabase fbDatabase;
     DatabaseReference dbReference;
@@ -43,25 +49,35 @@ public class CategoriaView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categoria);
+        setContentView(R.layout.activity_producto_view);
 
-        nombre = findViewById(R.id.txtNombreCategoria);
-        descripcion = findViewById(R.id.txtDescCategoria);
+        nombre = findViewById(R.id.txtNombreProducto);
+        precio = findViewById(R.id.txtPrecioProducto);
+        catId = findViewById(R.id.txtCategoriaIdP);
 
-        listaCategoria = findViewById(R.id.lvCategoria);
+        listaProducto = findViewById(R.id.lvListaProductos);
+        listaCategoria = findViewById(R.id.lvListaCategoriaP);
+
+        listaProducto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                prodSelect = (Producto) parent.getItemAtPosition(position);
+                nombre.setText(prodSelect.getProdNombre());
+                precio.setText(prodSelect.getProdPrecio());
+            }
+        });
         listaCategoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 catSelect = (Categoria) parent.getItemAtPosition(position);
-                nombre.setText(catSelect.getCatNombre());
-                descripcion.setText(catSelect.getCatDescripcion());
+                catId.setText(catSelect.getCatId());
             }
         });
 
-        guardar = findViewById(R.id.btnGuardarCategoria);
-        actualizar = findViewById(R.id.btnActualizarCategoria);
-        eliminar = findViewById(R.id.btnEliminarCategoria);
-        cancelar = findViewById(R.id.btnCancelarCategoria);
+        guardar = findViewById(R.id.btnGuadarProducto);
+        actualizar = findViewById(R.id.btnActualizarProducto);
+        eliminar = findViewById(R.id.btnEliminarProducto);
+        cancelar = findViewById(R.id.btnCancelarProducto);
 
         iniciarDb();
         guardar.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +109,7 @@ public class CategoriaView extends AppCompatActivity {
             }
         });
         listar();
+        listarCategoria();
     }
 
     private void iniciarDb() {
@@ -102,10 +119,30 @@ public class CategoriaView extends AppCompatActivity {
     }
     public void limpiar(){
         nombre.setText("");
-        descripcion.setText("");
+        precio.setText("");
     }
 
     private void listar() {
+        dbReference.child("Producto").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listProducto.clear();
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                    Producto p = objSnapshot.getValue(Producto.class);
+                    listProducto.add(p);
+
+                    arrayAdapterProducto = new ArrayAdapter<Producto>(ProductoView.this, android.R.layout.simple_list_item_1, listProducto);
+                    listaProducto.setAdapter(arrayAdapterProducto);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void listarCategoria() {
         dbReference.child("Categoria").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -114,7 +151,7 @@ public class CategoriaView extends AppCompatActivity {
                     Categoria c = objSnapshot.getValue(Categoria.class);
                     listCategoria.add(c);
 
-                    arrayAdapterCategoria = new ArrayAdapter<Categoria>(CategoriaView.this, android.R.layout.simple_list_item_1, listCategoria);
+                    arrayAdapterCategoria = new ArrayAdapter<Categoria>(ProductoView.this, android.R.layout.simple_list_item_1, listCategoria);
                     listaCategoria.setAdapter(arrayAdapterCategoria);
                 }
             }
@@ -128,17 +165,19 @@ public class CategoriaView extends AppCompatActivity {
 
     public void registrar() {
         String nombreV = nombre.getText().toString();
-        String descripcionV = descripcion.getText().toString();
+        String precioV = precio.getText().toString();
+        String catIdV = catId.getText().toString();
 
-        if (nombreV.equals("") || descripcionV.equals("")) {
+        if (nombreV.equals("") || precioV.equals("")) {
             Toast.makeText(this, "Ingrese todos los campos.", Toast.LENGTH_LONG).show();
         } else {
-            Categoria c = new Categoria();
-            c.setCatId(UUID.randomUUID().toString());
-            c.setCatNombre(nombreV);
-            c.setCatDescripcion(descripcionV);
+            Producto p = new Producto();
+            p.setProdId(UUID.randomUUID().toString());
+            p.setProdNombre(nombreV);
+            p.setProdPrecio(precioV);
+            p.setCatId(catIdV);
 
-            dbReference.child("Categoria").child(c.getCatId()).setValue(c);
+            dbReference.child("Producto").child(p.getProdId()).setValue(p);
 
             limpiar();
             Toast.makeText(this, "Registro exitoso.", Toast.LENGTH_LONG).show();
@@ -147,29 +186,30 @@ public class CategoriaView extends AppCompatActivity {
     }
 
     public void actualizar(){
-        if(!catSelect.getCatId().equals(null)) {
-            Categoria c = new Categoria();
-            c.setCatId(catSelect.getCatId());
-            c.setCatNombre(nombre.getText().toString().trim());
-            c.setCatDescripcion(descripcion.getText().toString().trim());
+        if(!prodSelect.getProdId().equals(null)) {
+            Producto p = new Producto();
+            p.setProdId(prodSelect.getProdId());
+            p.setProdNombre(nombre.getText().toString().trim());
+            p.setProdPrecio(precio.getText().toString().trim());
+            p.setCatId(catId.getText().toString().trim());
 
-            dbReference.child("Categoria").child(c.getCatId()).setValue(c);
+            dbReference.child("Producto").child(p.getProdId()).setValue(p);
 
             limpiar();
             Toast.makeText(this, "Actualizado.", Toast.LENGTH_LONG).show();
         }else {
-            Toast.makeText(this, "Seleccione una categoría.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Seleccione un producto.", Toast.LENGTH_LONG).show();
         }
     }
 
     public void eliminar(){
-        if(catSelect.getCatId().equals(null)) {
-            Toast.makeText(this, "Seleccione una categoría.", Toast.LENGTH_LONG).show();
+        if(prodSelect.getProdId().equals(null)) {
+            Toast.makeText(this, "Seleccione un producto.", Toast.LENGTH_LONG).show();
         }else {
-            Categoria c = new Categoria();
-            c.setCatId(catSelect.getCatId());
+            Producto p = new Producto();
+            p.setProdId(prodSelect.getProdId());
 
-            dbReference.child("Categoria").child(c.getCatId()).removeValue();
+            dbReference.child("Producto").child(p.getProdId()).removeValue();
 
             limpiar();
             Toast.makeText(this, "Eliminado.", Toast.LENGTH_LONG).show();
@@ -177,7 +217,7 @@ public class CategoriaView extends AppCompatActivity {
     }
 
     public void cancelar() {
-        Intent abrir = new Intent(CategoriaView.this, MenuView.class);
-        startActivity(abrir);
+        Intent abrirM = new Intent(ProductoView.this, MenuView.class);
+        startActivity(abrirM);
     }
 }

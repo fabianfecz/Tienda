@@ -2,6 +2,7 @@ package com.uisrael.tienda;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +36,7 @@ public class RegistroView extends AppCompatActivity {
         telefono = findViewById(R.id.txtTelefono);
         correo = findViewById(R.id.txtCorreo);
         nick = findViewById(R.id.txtNick);
-        pass = findViewById(R.id.txtPass);
+        pass = findViewById(R.id.txtContraseña);
         tipo = findViewById(R.id.chbTienda);
 
         guardar = findViewById(R.id.btnGuardarRegistro);
@@ -47,7 +48,12 @@ public class RegistroView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 registrar();
-
+            }
+        });
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                regresar();
             }
         });
     }
@@ -56,6 +62,14 @@ public class RegistroView extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         fbDatabase = FirebaseDatabase.getInstance();
         dbReference = fbDatabase.getReference();
+    }
+    public void limpiar(){
+        nombre.setText("");
+        apellido.setText("");
+        telefono.setText("");
+        correo.setText("");
+        nick.setText("");
+        pass.setText("");
     }
 
     public void registrar(){
@@ -83,9 +97,15 @@ public class RegistroView extends AppCompatActivity {
 
             dbReference.child("Usuario").child(u.getUsuarioId()).setValue(u);
 
-            Toast.makeText(this,"RegistroView exitoso.",Toast.LENGTH_LONG).show();
+            limpiar();
+            Toast.makeText(this,"Registro exitoso.",Toast.LENGTH_LONG).show();
+            regresar();
         }
 
     }
-
+    public void regresar(){
+        limpiar();
+        Intent abrir = new Intent(RegistroView.this, MainActivity.class);
+        startActivity(abrir);
+    }
 }

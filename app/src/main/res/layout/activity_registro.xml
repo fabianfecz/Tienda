@@ -13,24 +13,24 @@
         android:id="@+id/txtNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
         android:ems="10"
         android:hint="Nombre"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtApellido"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/txtApellido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
         android:layout_marginTop="17dp"
         android:ems="10"
         android:hint="Apellido"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/txtNombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
 
     <EditText
@@ -68,17 +68,6 @@
         app:layout_constraintEnd_toEndOf="@+id/txtCorreo"
         app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
 
-    <EditText
-        android:id="@+id/txtContraseña"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/txtNick"
-        app:layout_constraintTop_toBottomOf="@+id/txtNick" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -94,7 +83,7 @@
         android:id="@+id/chbTienda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:text="@string/btntTienda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,5 +121,18 @@
         app:layout_constraintEnd_toStartOf="@+id/btnGuardarRegistro"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtContraseña"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/txtNick"
+        app:layout_constraintTop_toBottomOf="@+id/txtNick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

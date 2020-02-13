@@ -15,4 +15,9 @@
     <string name="txttTienda">TIENDA</string>
     <string name="txttDireccion">Dirección</string>
     <string name="txttLista">Lista</string>
+    <string name="btnMisDatos">MI INFO</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve"
+        translatable="false">
+      AIzaSyAHPVz5dA848IlEE7IkEEBDgrvVadwRo0s
+   </string>
 </resources>

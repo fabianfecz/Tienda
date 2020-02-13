@@ -10,11 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,17 +54,27 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        registrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registrarse();
+
+            }
+        });
     }
+
     private void iniciarDb() {
         FirebaseApp.initializeApp(this);
         fbDatabase = FirebaseDatabase.getInstance();
         dbReference = fbDatabase.getReference();
     }
-    public void limpiar(){
+
+    public void limpiar() {
         usuario.setText("");
         pass.setText("");
     }
-    String usu, pas;
+
+    String usu = "", pas = "", usuId = "", tipo = "";
 
     public void validar() {
         dbReference.child("Usuario").addValueEventListener(new ValueEventListener() {
@@ -78,15 +83,11 @@ public class MainActivity extends AppCompatActivity {
                 listUsuario.clear();
                 for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
                     Usuario c = objSnapshot.getValue(Usuario.class);
+                    usuId = c.getUsuarioId();
                     usu = c.getNick();
                     pas = c.getContraseña();
-
-                    /*listUsuario.add(c);
-
-                    arrayAdapterUsuario = new ArrayAdapter<Usuario>(MainActivity.this, android.R.layout.simple_list_item_1, listUsuario);
-                    listaUsuario.setAdapter(arrayAdapterCategoria);*/
+                    tipo = c.getTipo();
                 }
-
             }
 
             @Override
@@ -94,13 +95,36 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        if(!usu.equals(null) && !pas.equals(null)){
-            Toast.makeText(this, usu+pas, Toast.LENGTH_LONG).show();
-            /*Intent abrir = new Intent(MainActivity.this, MenuView.class);
-            startActivity(abrir);*/
-        }else{
-            Toast.makeText(this, "Usuario o contraseña erróneo.", Toast.LENGTH_LONG).show();
+
+        /*if (usu.equals("") || pas.equals("")) {
+            Toast.makeText(this, "Ingrése lo solicitado.", Toast.LENGTH_LONG).show();
+            usu = "";
+            pas = "";
+            tipo = "";
+        } else */if (usu.equals(usuario.getText().toString()) && pas.equals(pass.getText().toString())) {
+            BaseDatosFB globalVariable = (BaseDatosFB) getApplicationContext();
+            globalVariable.setUsuId(usuId);
+
+            if (tipo.equals("tienda")) {
+                Intent abrirT = new Intent(MainActivity.this, MenuView.class);
+                startActivity(abrirT);
+            }else{
+                Intent abrirC = new Intent(MainActivity.this, ClienteView.class);
+                startActivity(abrirC);
+            }
+            limpiar();
+        } else {
+            usu = "";
+            tipo = "";
+            pas = "";
+            Toast.makeText(this, "Datos errónes.", Toast.LENGTH_LONG).show();
         }
     }
 
+    public void registrarse() {
+        Intent abrir = new Intent(MainActivity.this, RegistroView.class);
+        startActivity(abrir);
+    }
 }
+
+

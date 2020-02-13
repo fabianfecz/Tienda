@@ -26,3 +26,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+//resValue "string", "google_maps_key",
+  //      (project.findProperty("AIzaSyAHPVz5dA848IlEE7IkEEBDgrvVadwRo0s") ?: "")
